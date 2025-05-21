@@ -14,9 +14,11 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) {
+        System.out.println("Recebendo cadastro: " + user.getUsername() + ", " + user.getEmail()); //log para ver se a requisição ta chegando
         User registeredUser = userService.registerUser(user);
         return ResponseEntity.ok(registeredUser);
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
