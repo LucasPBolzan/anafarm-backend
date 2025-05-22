@@ -13,7 +13,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8082") //mudar conforme a porta que ta rodando o front
+                        .allowedOrigins("http://localhost:8081") //mudar conforme a porta que ta rodando o front
                         .allowedMethods("*");
             }
         };

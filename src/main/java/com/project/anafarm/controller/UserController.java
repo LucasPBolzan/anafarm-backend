@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
-        User loggedUser = userService.loginUser(user.getUsername(), user.getPassword());
+        User loggedUser = userService.loginUser(user.getEmail(), user.getPassword());
         if (loggedUser != null) {
             return ResponseEntity.ok(loggedUser);
         }
