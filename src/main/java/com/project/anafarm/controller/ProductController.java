@@ -4,6 +4,13 @@ import com.project.anafarm.model.Product;
 import com.project.anafarm.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.*;
+import java.util.UUID;
+import java.io.IOException;
+
+
+
 
 import java.util.List;
 
@@ -22,6 +29,17 @@ public class ProductController {
     public Product addProduct(@RequestBody Product product) {
         return productService.addProduct(product);
     }
+
+    @PostMapping("/upload")
+    public String uploadImage(@RequestParam("image") MultipartFile imageFile) throws IOException {
+    String folder = "src/main/resources/static/images/";
+    String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+
+    Path path = Paths.get(folder + filename);
+    Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+    return "/images/" + filename;
+}
 
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
