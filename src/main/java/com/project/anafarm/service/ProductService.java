@@ -25,6 +25,12 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    public Product getProductById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+    }
+
+
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }

@@ -25,6 +25,12 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable Long id) {
+        return productService.getProductById(id);
+    }
+
+
     @PostMapping
     public Product addProduct(@RequestBody Product product) {
         return productService.addProduct(product);
@@ -32,14 +38,24 @@ public class ProductController {
 
     @PostMapping("/upload")
     public String uploadImage(@RequestParam("image") MultipartFile imageFile) throws IOException {
-    String folder = "src/main/resources/static/images/";
-    String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+        // Caminho relativo à pasta static
+        String folderPath = "src/main/resources/static/";
+        Files.createDirectories(Paths.get(folderPath)); // cria a pasta se não existir
 
-    Path path = Paths.get(folder + filename);
-    Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        // Gera nome único
+        String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
 
-    return "/images/" + filename;
-}
+        // Caminho completo do arquivo
+        Path filePath = Paths.get(folderPath + filename);
+
+        // Salva o arquivo no disco
+        Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        // Retorna a URL relativa para ser usada no <img src="">
+        return "/" + filename;
+    }
+
+
 
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
